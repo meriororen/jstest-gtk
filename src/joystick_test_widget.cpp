@@ -188,6 +188,23 @@ JoystickTestWidget::JoystickTestWidget(Joystick& joystick_, bool simple_ui)
     axis_callbacks[6].connect(sigc::mem_fun(stick3_widget, &AxisWidget::set_y_axis));
     break;
 
+  case 18: // Dualshock 4
+	 stick_hbox.pack_start(stick1_widget, Gtk::PACK_EXPAND_PADDING);
+	 stick_hbox.pack_start(stick2_widget, Gtk::PACK_EXPAND_PADDING);
+	 stick_hbox.pack_start(stick3_widget, Gtk::PACK_EXPAND_PADDING); //touchpad
+	 stick_hbox.pack_start(left_trigger_widget, Gtk::PACK_EXPAND_PADDING);
+	 stick_hbox.pack_start(right_trigger_widget, Gtk::PACK_EXPAND_PADDING);
+
+	 axis_callbacks[0].connect(sigc::mem_fun(stick1_widget, &AxisWidget::set_x_axis));
+	 axis_callbacks[1].connect(sigc::mem_fun(stick1_widget, &AxisWidget::set_y_axis));
+	 axis_callbacks[2].connect(sigc::mem_fun(stick2_widget, &AxisWidget::set_x_axis));
+	 axis_callbacks[3].connect(sigc::mem_fun(left_trigger_widget, &ThrottleWidget::set_pos));
+	 axis_callbacks[4].connect(sigc::mem_fun(right_trigger_widget, &ThrottleWidget::set_pos));
+	 axis_callbacks[5].connect(sigc::mem_fun(stick2_widget, &AxisWidget::set_y_axis));
+	 axis_callbacks[15].connect(sigc::mem_fun(stick3_widget, &AxisWidget::set_x_axis));
+	 axis_callbacks[16].connect(sigc::mem_fun(stick3_widget, &AxisWidget::set_y_axis));
+	 break;
+
   case 27: // Playstation 3 Controller
     stick_hbox.pack_start(stick1_widget, Gtk::PACK_EXPAND_PADDING);
     stick_hbox.pack_start(stick2_widget, Gtk::PACK_EXPAND_PADDING);
@@ -207,7 +224,7 @@ JoystickTestWidget::JoystickTestWidget(Joystick& joystick_, bool simple_ui)
     break;
 
   default:
-    std::cout << "Warning: unknown joystick, not displaying graphical representation." << std::endl;
+    std::cout << "Warning: unknown joystick (axis count: " << joystick.get_axis_count() << "), not displaying graphical representation." << std::endl;
   }
 
   if (!m_simple_ui)
